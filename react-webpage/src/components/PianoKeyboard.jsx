@@ -3,6 +3,7 @@ import BlackKey from "./BlackKey";
 import { useState } from "react";
 import findChord from "./chordAnalyzer";
 import ChordDisplay from "./ChordDisplay";
+import Button from "./Button";
 
 const notes = [
     {note: 'A', imageId: 1, sharp: true},
@@ -51,6 +52,11 @@ function PianoKeyboard() {
         else {setChord(undefined)}
     }
 
+    const [playSignal, sendSignal] = useState(0)
+    const playClicked = () => {
+        sendSignal(a => (a+1))
+    }
+
     return (
         <>
         <div className="pianoElement">
@@ -64,12 +70,13 @@ function PianoKeyboard() {
             <div className="pianoKeyboard">
                 {keys.map((key, index) => (
                     <div className="keyWrapper" key={key.note + key.octave}>
-                        <WhiteKey index={(index * 10) - 5} toggle={handleKeyToggle} note={key.note} octave={key.octave} imageId={key.imageId}/>
-                        {key.sharp && <BlackKey index={index * 10} toggle={handleKeyToggle} note={key.note} octave={key.octave}/>}
+                        <WhiteKey index={(index * 10) - 5} toggle={handleKeyToggle} note={key.note} octave={key.octave} imageId={key.imageId} playSignal={playSignal}/>
+                        {key.sharp && <BlackKey index={index * 10} toggle={handleKeyToggle} note={key.note} octave={key.octave} playSignal={playSignal}/>}
                     </div>
                 ))}
             </div>
         </div>
+        <Button usage={'play'} funct={playClicked}/>
         <ChordDisplay candidates={currentChord}/>
         </>
     )

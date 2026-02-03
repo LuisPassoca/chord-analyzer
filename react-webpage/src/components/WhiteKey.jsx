@@ -1,9 +1,17 @@
-import { useRef, useCallback, useState } from 'react'
+import { useRef, useCallback, useState, useEffect } from 'react'
 
-function WhiteKey({index, toggle, note, octave, imageId}) {
-    const audioRef = useRef(new Audio(`./assets/audio/${note}${octave}.wav`))
+function WhiteKey({index, toggle, note, octave, imageId, playSignal}) {
+    const audioRef = useRef(new Audio(`./assets/audio/${note}${octave}.mp3`))
     const [toggled, setToggled] = useState(false);
 
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (toggled) {
+            audio.currentTime = 0;
+            audio.play();
+        }
+    }, [playSignal])
+ 
     const handleClick = useCallback(() => {
         const audio = audioRef.current;
         setToggled(a => {

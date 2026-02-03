@@ -21,17 +21,17 @@ const added = [
 ]
 
 const dyads = [
-    new chord('Minor 2nd', '(m2)', [0, 1]),
-    new chord('Major 2nd', '(M2)', [0, 2]),
-    new chord('Minor 3rd', '(m3)', [0, 3]),
-    new chord('Major 3rd', '(M3)', [0, 4]),
-    new chord('Perfect 4th', '(P4)', [0, 5]),
-    new chord('Tritone', '(TT)', [0, 6]),
-    new chord('Perfect 5th', '(5)', [0, 7]),
-    new chord('Minor 6th', '(m6)', [0, 8]),
-    new chord('Major 6th', '(M6)', [0, 9]),
-    new chord('Minor 7th', '(m7)', [0, 10]),
-    new chord('Major 7th', '(M7)', [0, 11]),
+    new chord('Perfect 5th', '5', [0, 7]),
+    new chord('Perfect 4th', 'P4', [0, 5]),
+    new chord('Minor 2nd', 'm2', [0, 1]),
+    new chord('Major 2nd', 'M2', [0, 2]),
+    new chord('Minor 3rd', 'm3', [0, 3]),
+    new chord('Major 3rd', 'M3', [0, 4]),
+    new chord('Tritone', 'TT', [0, 6]),
+    new chord('Minor 6th', 'm6', [0, 8]),
+    new chord('Major 6th', 'M6', [0, 9]),
+    new chord('Minor 7th', 'm7', [0, 10]),
+    new chord('Major 7th', 'M7', [0, 11]),
 ]
 
 const triads = [
@@ -52,15 +52,14 @@ const tetrads = [
     new chord('Dominant 7th', '7', [0, 4, 7, 10]),
     new chord('Half Diminished 7th', 'm7b5', [0, 3, 6, 10]),
     new chord('Diminished 7th', 'dim7', [0, 3, 6, 9]),
-    //new chord('Augmented 7th', 'aug7', [0, 4, 8, 10]),
     new chord('Minor Major 7th', 'min(maj7)', [0, 3, 7, 11]),
-
-    //new chord('Quartal', 'Q4', [0, 3, 5, 10]),
-    //new chord('Quintal', 'Q5', [0, 2, 7, 9]),
-
     new chord('Dominant 7th Flat 5', '7b5', [0, 4, 6, 10]),
     new chord('Dominant 7th Sharp 5', '7#5', [0, 4, 8, 10]),
     new chord('Dominant 7th Suspended 4th', '7sus4', [0, 5, 7, 10]),
+
+    //new chord('Augmented 7th', 'aug7', [0, 4, 8, 10]),
+    //new chord('Quartal', 'Q4', [0, 3, 5, 10]),
+    //new chord('Quintal', 'Q5', [0, 2, 7, 9]),
 ]
 
 const pentads = [
@@ -138,12 +137,12 @@ function searchChords(intervals) {
         }
     }
 
-    //candidates.length < 2
     if (candidates.length == 0) {
         for (const interval of intervals) {
             const candidate = buildCustomChord(interval, intervals[0].root);
             if (candidate != undefined) {candidates.push(candidate)};
         }
+        candidates.sort((a, b) => (a.additions - b.additions))
     }
     return candidates;
 }
@@ -155,7 +154,9 @@ function buildCustomChord(interval, root) {
     let baseChord = {chordRoot: notes[root], inversionRoot:  notes[interval.root], chordInfo: {... knownChords[foundChord.chordType][foundChord.chordIndex]}}
     const elementsToSearch = interval.intervals.filter(element => (!baseChord.chordInfo.intervals.includes(element)));
     let numberOfElements = elementsToSearch.length;
+    baseChord.additions = numberOfElements;
 
+    baseChord.chordInfo.name += ' -';
     for (const add of added) {
         if (elementsToSearch.includes(add.intervals)) {
             numberOfElements -= 1;
@@ -175,11 +176,7 @@ function findClosestChord(interval) {
             if (bestMatch) {return {chordType: i, chordIndex: j, root: interval.root}}
         }
     }
-
-    //i >= 0
-    //const bestMatch = knownChords[0][0].intervals.every(element => interval.intervals.includes(element))
-    //if (bestMatch) {return {chordType: 0, chordIndex: 0, root: interval.root}}
-
+    
     return undefined;
 }
 

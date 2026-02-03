@@ -1,5 +1,6 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: rgb(119, 171, 206);
   text-align: center;
 }
 
@@ -14,9 +15,26 @@
   justify-content: center;
 }
 
-ul {
-  list-style-type: none;
-  padding: none;
+.button {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  height: 60px;
+  user-select: none;
+
+  img {
+    margin: auto;
+    width: 45px;
+    transition: width 0.2s;
+  }
+
+  img:hover {
+    width: 50px;
+  }
+
+  img:active{
+    width: 45px;
+  }
 }
 
 .pianoStripe {
@@ -81,6 +99,43 @@ ul {
 .white {
   z-index: 9;
   position: relative;
+}
+
+.chordDisplay {
+  background-color: white;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 10px;
+  width: fit-content;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  
+  .closestMatch {
+    padding: 10px;
+  }
+
+  .otherMatches {
+    text-align: center;
+    width: 40%;
+
+    ul {
+      list-style-type: none;
+      padding: 0 !important;
+    }
+  }
+  
+
+  h1, h2, h3 {
+    margin: 0;
+  }
+
+  .grayText {
+    color: #535353;
+  }
 }
 
 @media only screen and (max-width: 600px) {
