@@ -32,10 +32,11 @@ The project was built entirely using JavaScript, along with React. All image ass
 
 ## How the algorithm works
 1. The user input is normalized and all possible chord inversions are compared to a known chords database, looking for a match.
-2. If there are no matches found, the algorithm then locates the most similar known chord and add onto it (e.g.: add9);
+2. If there are no matches found, the algorithm locates the most similar known chord and adds onto it (e.g.: add9);
 3. Finally, the script returns the best possible match, followed by alternatives, all containing the chord names in full, their root note and their inversion root note (if applicable).
 
 ## Script usage
 - If you would like to use the script without the webpage, you can download the chordAnalyzer.js file;
 - It is possible to run the script with Node or use it as an exported function for another application;
 - For more details, please check the last lines of commented code in the main script file.
+
