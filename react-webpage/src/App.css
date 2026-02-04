@@ -120,11 +120,11 @@
   .otherMatches {
     background-color: #dddddd;
     border-radius: 10px;
-    max-height: 100px;
+    max-height: 107px;
     overflow-y: auto;
     margin: auto;
     text-align: center;
-    width: 40%;
+    width: 525px;
 
     ul {
       margin: 0;
@@ -214,6 +214,10 @@
     justify-content: left;
   }
 
+  .chordDisplay .otherMatches {
+    width: 454px;
+  }
+
   .octave2 {
     display: none;
   }
@@ -222,9 +226,13 @@
 @media only screen and (max-width: 490px) {
   .pianoKeyboard {
     width: 216px;
-    
     justify-content: left;
   }
+
+  .chordDisplay .otherMatches {
+    width: 244px;
+  }
+
   .octave1 {
     display: none;
   }
