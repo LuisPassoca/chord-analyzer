@@ -57,6 +57,11 @@ function PianoKeyboard() {
         sendSignal(a => (a+1))
     }
 
+    const [resetSignal, sendReset] = useState(0)
+    const resetClicked = () => {
+        sendReset(a => (a+1))
+    }
+
     return (
         <>
         <div className="pianoElement">
@@ -70,14 +75,17 @@ function PianoKeyboard() {
             <div className="pianoKeyboard">
                 {keys.map((key, index) => (
                     <div className="keyWrapper" key={key.note + key.octave}>
-                        <WhiteKey index={(index * 10) - 5} toggle={handleKeyToggle} note={key.note} octave={key.octave} imageId={key.imageId} playSignal={playSignal}/>
-                        {key.sharp && <BlackKey index={index * 10} toggle={handleKeyToggle} note={key.note} octave={key.octave} playSignal={playSignal}/>}
+                        <WhiteKey index={(index * 10) - 5} toggle={handleKeyToggle} note={key.note} octave={key.octave} imageId={key.imageId} playSignal={playSignal} resetSignal={resetSignal}/>
+                        {key.sharp && <BlackKey index={index * 10} toggle={handleKeyToggle} note={key.note} octave={key.octave} playSignal={playSignal} resetSignal={resetSignal}/>}
                     </div>
                 ))}
             </div>
         </div>
-        <Button usage={'play'} funct={playClicked}/>
-        <ChordDisplay candidates={currentChord}/>
+        <div className="buttons">
+            <Button usage={'play'} funct={playClicked}/>
+            <Button usage={'reset'} funct={resetClicked}/>
+        </div>
+        <ChordDisplay candidates={currentChord} activeKeys={activeKeys}/>
         </>
     )
 }

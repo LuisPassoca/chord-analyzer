@@ -1,6 +1,6 @@
 import { useRef, useCallback, useState, useEffect } from 'react';
 
-function BlackKey({index, toggle, note, octave, playSignal}) {
+function BlackKey({index, toggle, note, octave, playSignal, resetSignal}) {
     const audioRef = useRef(new Audio(`./assets/audio/${note}s${octave}.mp3`))
     const [toggled, setToggled] = useState(false);
 
@@ -11,6 +11,18 @@ function BlackKey({index, toggle, note, octave, playSignal}) {
             audio.play();
         }
     }, [playSignal])
+
+    useEffect(() => {
+        if (toggled) {
+            const audio = audioRef.current;
+            setToggled(a => {
+                audio.pause();
+                toggle({note: note, index: index});
+                return !a;
+            })
+        }
+    }, [resetSignal])
+ 
 
     const handleClick = useCallback(() => {
         const audio = audioRef.current;

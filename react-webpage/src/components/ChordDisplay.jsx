@@ -1,24 +1,31 @@
-function ChordDisplay({candidates}) {
-    if (candidates == undefined) {return (
-        <>
-            <div className="chordDisplay">---</div>
-        </>
-    )}   
+import { useState } from "react"
+
+function ChordDisplay({candidates, activeKeys}) {
+    const [checkboxToggled, toggleCheckbox] = useState(false)
+
+    const checkboxClicked = () => {
+        toggleCheckbox(a => (!a))
+    }
+
+    if (activeKeys.length < 2) 
+        return(<div className="chordDisplay"><h2>Please select atleast 2 notes</h2></div>)
+
+    if (candidates == undefined) 
+        return (<div className="chordDisplay"><h2>Undefined chord</h2></div>)  
 
     const mainCandidate = candidates[0]
-
-
 
     return (
         <div className="chordDisplay">
             <div className="closestMatch">
                 <h2>Best match:</h2>
-                <h2>
+                <h2><b>
                     {
                     mainCandidate.inversionRoot + 
                     mainCandidate.chordInfo.short + 
                     (mainCandidate.inversionRoot != mainCandidate.chordRoot ? ('/' +  mainCandidate.chordRoot) : '')
                     }
+                    </b>
                 </h2>
                 <h3 className='grayText'>
                     {
@@ -29,9 +36,14 @@ function ChordDisplay({candidates}) {
                 </h3>
             </div> 
 
-            {candidates.length > 192 && ( 
+            <div className="checkbox">
+                <label htmlFor='displaymore'>Display other possible matches?</label>
+                <input type='checkbox' id='displaymore' onChange={checkboxClicked} checked={checkboxToggled}></input>
+            </div>
+
+            {candidates.length > 1 && checkboxToggled && ( 
                 <div className="otherMatches">
-                    <h3 className="grayText">Other matches: </h3>
+                    <h3>Other matches: </h3>
                     <ul>
                         {candidates.map((element, index) => index !=0 &&
                             <li key={index} title={
@@ -50,26 +62,6 @@ function ChordDisplay({candidates}) {
                 )}
         </div>
     )
-
-
-
-    return(
-        <>
-        <h2>Best Match:</h2>
-        <h2>
-            {mainCandidate.inversionRoot + mainCandidate.chordInfo.short + (mainCandidate.inversionRoot != mainCandidate.chordRoot ? ('/' +  mainCandidate.chordRoot) : '')}
-        </h2>
-        <h3>{mainCandidate.inversionRoot + " " + mainCandidate.chordInfo.name}</h3>
-
-        {candidates.length > 1 && (<div><h2>Other possible matches: </h2>
-                <ul>
-                    {candidates.map((element, index)=> index != 0 && <li key={element.inversionRoot + element.chordInfo.name} title={element.inversionRoot + " " + element.chordInfo.name}>{element.inversionRoot + element.chordInfo.short + (element.inversionRoot != element.chordRoot ? ('/' +  element.chordRoot) : '')}</li>)}
-                </ul>
-            </div>
-            )}
-        </>
-    )
-
 }
 
 export default ChordDisplay;
